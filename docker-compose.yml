@@ -1,0 +1,32 @@
+version: '2'
+
+# Run the following once:
+# docker compose run --rm archweb_web python manage.py migrate
+# docker compose run --rm archweb_web python manage.py loaddata mirrors/fixtures/mirrorprotocols.json
+# docker compose run --rm archweb_web python manage.py loaddata main/fixtures/arches.json
+# docker compose run --rm archweb_web python manage.py loaddata main/fixtures/repos.json
+# docker compose run --rm archweb_web python manage.py createsuperuser --username=admin --email=admin@archweb.local
+## go to /admin/sites/site/1/change/ and set the domain
+
+
+services:
+    archweb_web:
+        container_name: archweb-packages
+        build:
+            context: ./
+            dockerfile: Dockerfile
+        restart: "no"
+        ports:
+            - "8000:8000"
+        volumes:
+            - ./config:/usr/src/web/config
+    
+    archweb_sync:
+        container_name: archweb-sync
+        build:
+            context: ./
+            dockerfile: Dockerfile
+        restart: "no"
+        volumes:
+            - ./config:/usr/src/web/config
+        command: ./downloadpackages.sh
