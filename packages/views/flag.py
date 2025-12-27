@@ -67,7 +67,7 @@ def flag(request, name, repo, arch):
 
     if request.POST:
         form = FlagForm(request.POST, authenticated=authenticated)
-        if form.is_valid() and form.cleaned_data['website'] == '':
+        if form.is_valid() and form.cleaned_data['website'] == '' and False:
             # save the package list for later use
             flagged_pkgs = list(pkgs)
 
