@@ -19,7 +19,7 @@ services:
         ports:
             - "8000:8000"
         volumes:
-            - ./config:/usr/src/web/config
+            - ./config:/srv/http/archweb/config
     
     archweb_sync:
         container_name: archweb-sync
@@ -28,5 +28,5 @@ services:
             dockerfile: Dockerfile
         restart: "no"
         volumes:
-            - ./config:/usr/src/web/config
+            - ./config:/srv/http/archweb/config
         command: ./downloadpackages.sh
