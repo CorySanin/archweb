@@ -7,17 +7,17 @@ requires-python = ">=3.13"
 dependencies = [
     "bencode-py==4.0.0",
     "bleach==6.3.0",
-    "django==5.2.9",
+    "django==5.2.13",
     "django-countries==8.2.0",
     "django-csp==4.0",
     "django-prometheus==2.4.1",
     "feedparser==6.0.12",
     "ipy==1.1",
     "jsmin==3.0.1",
-    "markdown==3.10",
-    "parse==1.20.2",
+    "markdown==3.10.2",
+    "parse==1.21.1",
     "pgpdump==1.5",
-    "requests==2.32.5",
+    "requests==2.33.1",
     "sqlparse==0.5.5",
     "whitenoise>=6.11.0",
 ]
@@ -29,7 +29,7 @@ dev = [
     "pytest-cov>=6.2.1",
     "pytest-django>=4.11.1",
     "ruff>=0.12.11",
-    "django-debug-toolbar==6.1.0",
+    "django-debug-toolbar==6.3.0",
 ]
 prod = [
     "pyasyncore==1.0.5",
@@ -47,6 +47,7 @@ smtp = [
 line-length = 118
 exclude = [
     "*/migrations/*.py",  # Ignore Django migrations
+    "archlinux_common_style/*",  # git submodule
 ]
 
 [tool.ruff.lint]
