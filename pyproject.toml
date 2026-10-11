@@ -5,31 +5,37 @@ description = "Arch Linux website code"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
-    "bencode-py==4.0.0",
-    "bleach==6.3.0",
-    "django==5.2.14",
-    "django-countries==8.2.0",
+    "bencode-py==4.1.0",
+    "bleach==6.4.0",
+    "django==5.2.18",
+    "django-countries==9.1.0",
     "django-csp==4.0",
-    "django-prometheus==2.4.1",
-    "feedparser==6.0.12",
+    "django-prometheus==2.5.0",
+    "feedparser==6.0.14",
     "ipy==1.1",
     "jsmin==3.0.1",
-    "markdown==3.10.2",
-    "parse==1.22.0",
+    "markdown==3.10.3",
+    "parse==1.22.1",
     "pgpdump==1.5",
-    "requests==2.33.1",
-    "sqlparse==0.5.5",
+    "requests==2.34.2",
+    "sqlparse==0.6.0",
+    "django-ninja==1.7.1",
     "whitenoise>=6.11.0",
 ]
 
 [dependency-groups]
 dev = [
+    "django-debug-toolbar==8.0.0",
+    "django-stubs[compatible-mypy]>=5.2.0",
     "flake8>=7.3.0",
-    "pytest>=9.0.3",
+    "mypy>=1.15.0",
+    "pytest>=9.1.1",
     "pytest-cov>=6.2.1",
     "pytest-django>=4.11.1",
-    "ruff>=0.15.12",
-    "django-debug-toolbar==6.3.0",
+    "ruff>=0.15.21",
+    "types-bleach>=6.0.0",
+    "types-Markdown>=3.6.0",
+    "types-requests>=2.33.0.20260712",
 ]
 prod = [
     "pyasyncore==1.0.5",
@@ -37,7 +43,7 @@ prod = [
     "pymemcache==4.0.0",
 ]
 postgres = [
-    "psycopg2==2.9.12",
+    "psycopg2==2.9.13",
 ]
 smtp = [
     "aiosmtpd>=1.4.6",
@@ -65,6 +71,7 @@ select = [
     "ISC",     # flake8-implicit-str-concat
     "PIE",     # flake8-pie
     "PLE",     # pylint errors
+    "PT",      # flake8-pytest-style
     "RSE",     # flake8-raise
     "RUF",     # ruff rules
     "T10",     # flake8-debugger
@@ -83,7 +90,20 @@ ignore = [
     "DJ006", # Do not use `exclude` with `ModelForm`, use `fields` instead
     "DJ012", # Order of model's inner classes, methods, and fields does not follow the Django Style Guide: `Meta` class should come before `get_absolute_url`
     "FBT002", # default-value-positional-argument
+    "ICN001", # `datetime` should be imported as `dt`
 ]
+
+[tool.mypy]
+python_version = "3.14"
+plugins = ["mypy_django_plugin.main"]
+exclude = [
+    "migrations/",
+    "archlinux_common_style/",
+]
+ignore_missing_imports = true
+
+[tool.django-stubs]
+django_settings_module = "settings"
 
 [tool.pytest.ini_options]
 DJANGO_SETTINGS_MODULE = "settings"

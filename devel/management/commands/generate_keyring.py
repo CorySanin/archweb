@@ -24,7 +24,7 @@ class Command(BaseCommand):
         parser.add_argument('args', nargs='*', help='<arch> <filename>')
 
     def handle(self, *args, **options):
-        v = int(options.get('verbosity', None))
+        v = int(options.get('verbosity'))
         if v == 0:
             logger.level = logging.ERROR
         elif v == 1:
@@ -76,7 +76,7 @@ TRUST_LEVELS = {
 }
 
 
-def generate_ownertrust(trust_path):
+def generate_ownertrust(trust_path: str) -> None:
     master_key_ids = MasterKey.objects.values_list("pgp_key", flat=True)
     with open(trust_path, "w") as trustfile:
         for key_id in master_key_ids:

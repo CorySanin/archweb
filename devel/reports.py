@@ -20,9 +20,9 @@ class Linkify:
         self.title = title
         self.desc = desc
 
-    def __str__(self):
-        link = '<a href="%s" title="%s">%s</a>'
-        return format_html(link % (self.href, self.title, self.desc))
+    def __str__(self) -> str:
+        return format_html('<a href="{href}" title="{title}">{desc}</a>',
+                           href=self.href, title=self.title, desc=self.desc)
 
 
 def linkify_non_reproducible_packages(statuses):
@@ -150,7 +150,7 @@ def mismatched_signature(packages):
     for package in packages:
         bad = False
         sig = package.signature
-        dev_key = known_keys.get(sig.key_id, None)
+        dev_key = known_keys.get(sig.key_id)
         if dev_key:
             package.sig_by = dev_key.owner
             if dev_key.owner_id != package.packager_id:

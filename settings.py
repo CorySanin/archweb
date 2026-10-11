@@ -2,6 +2,8 @@
 import sys
 from os import path
 
+from csp.constants import NONCE, SELF
+
 # Set the debug values
 DEBUG = False
 DEBUG_TOOLBAR = False
@@ -45,7 +47,7 @@ DATETIME_FORMAT = 'Y-m-d H:i'
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
 
-MIDDLEWARE = (
+MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -56,7 +58,7 @@ MIDDLEWARE = (
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.http.ConditionalGetMiddleware',
     'csp.middleware.CSPMiddleware',
-)
+]
 
 # Base of the URL hierarchy
 ROOT_URLCONF = 'urls'
@@ -96,18 +98,21 @@ SECURE_REFERRER_POLICY = 'strict-origin'
 SECURE_CONTENT_TYPE_NOSNIFF = True
 
 # CSP Settings
-CSP_DEFAULT_SRC = ("'self'",)
-CSP_SCRIPT_SRC = ("'self'",)
-CSP_INCLUDE_NONCE_IN = ['script-src']
-CSP_IMG_SRC = ("'self'", 'data:',)
-CSP_BASE_URI = ("'none'",)
-CSP_FORM_ACTION = ("'self'",)
-CSP_FRAME_ANCESTORS = ("'none'",)
+CONTENT_SECURITY_POLICY = {
+    "DIRECTIVES": {
+        "default-src": [SELF],
+        "script-src": [SELF, NONCE],
+        "img-src": [SELF, "data:"],
+        "base-uri": ["'none'"],
+        "form-action": [SELF],
+        "frame-ancestors": ["'none'"],
+    }
+}
 
 # Use new test runner
 TEST_RUNNER = 'django.test.runner.DiscoverRunner'
 
-INSTALLED_APPS = (
+INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.auth',
     'django.contrib.humanize',
@@ -120,6 +125,7 @@ INSTALLED_APPS = (
     'django_countries',
 
     'archlinux_common_style.django',
+    'ninja',
 
     'main',
     'mirrors',
@@ -131,7 +137,8 @@ INSTALLED_APPS = (
     'public',
     'releng',
     'visualize',
-)
+    'api',
+]
 
 # Logging configuration for not getting overspammed
 LOGGING = {
@@ -265,16 +272,16 @@ TEMPLATES = [
 
 # Enable the debug toolbar if requested
 if DEBUG_TOOLBAR:
-    MIDDLEWARE = ['debug_toolbar.middleware.DebugToolbarMiddleware', *list(MIDDLEWARE)]
+    MIDDLEWARE = ['debug_toolbar.middleware.DebugToolbarMiddleware', *MIDDLEWARE]
 
-    INSTALLED_APPS = [*list(INSTALLED_APPS), 'debug_toolbar']
+    INSTALLED_APPS = [*INSTALLED_APPS, 'debug_toolbar']
 
 if PROMETHEUS_METRICS:
     MIDDLEWARE = ['django_prometheus.middleware.PrometheusBeforeMiddleware',
-                  *list(MIDDLEWARE),
+                  *MIDDLEWARE,
                   'django_prometheus.middleware.PrometheusAfterMiddleware']
 
-    INSTALLED_APPS = [*list(INSTALLED_APPS), 'django_prometheus']
+    INSTALLED_APPS = [*INSTALLED_APPS, 'django_prometheus']
 
 # Assume all URLField will be HTTPS if not specified.
 # NOTE: this can be removed once we bump Django to 6.x

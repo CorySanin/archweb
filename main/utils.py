@@ -52,7 +52,7 @@ def clear_cache_function(func, args, kwargs):
     cache.delete(key)
 
 
-def empty_response():
+def empty_response() -> HttpResponse:
     empty = HttpResponse('')
     # designating response as 'streaming' forces ConditionalGetMiddleware to
     # not add a 'Content-Length: 0' header
@@ -142,7 +142,7 @@ def groupby_preserve_order(iterable, keyfunc):
     for item in iterable:
         key = keyfunc(item)
 
-        group = seen_keys.get(key, None)
+        group = seen_keys.get(key)
         if group is None:
             group = []
             seen_keys[key] = group

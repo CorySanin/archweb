@@ -1,21 +1,20 @@
 from django import template
 from django.contrib.staticfiles.storage import staticfiles_storage
 from django.utils.html import format_html
-from django.utils.safestring import mark_safe
 
 register = template.Library()
 
 
 @register.simple_tag
-def jquery():
+def jquery() -> str:
     version = '3.6.0'
     filename = f'jquery-{version}.min.js'
     link = staticfiles_storage.url(filename)
-    return mark_safe(f'<script type="text/javascript" src="{link}"></script>')
+    return format_html('<script type="text/javascript" src="{link}"></script>', link=link)
 
 
 @register.simple_tag
-def jquery_tablesorter():
+def jquery_tablesorter() -> str:
     version = '2.31.0'
     filename = f'jquery.tablesorter-{version}.min.js'
     link = staticfiles_storage.url(filename)
@@ -23,8 +22,8 @@ def jquery_tablesorter():
 
 
 @register.simple_tag
-def d3js():
-    version = '3.5.0'
+def d3js() -> str:
+    version = '7.9.0'
     filename = f'd3-{version}.min.js'
     link = staticfiles_storage.url(filename)
     return format_html('<script type="text/javascript" src="{link}"></script>', link=link)
